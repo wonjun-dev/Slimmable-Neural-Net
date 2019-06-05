@@ -16,7 +16,6 @@ parser.add_argument('--num_samples', default=4, type=int)
 parser.add_argument('--batch_size', default=180, type=int)
 parser.add_argument('--valid_batch_size', type=int, default=5000)
 parser.add_argument('--test_batch_size', type=int, default=1000)
-
 parser.add_argument('--run_name', default=0, type=int)
 args = parser.parse_args()
 
