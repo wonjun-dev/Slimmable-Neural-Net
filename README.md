@@ -4,4 +4,6 @@ Project of Slimmable Neural Network based smart resoure allocation
 
 ## To Do List
 
-* TBD
+* Beta-Bernoulli + SNN
+* Calibration
+* BN layer normalization
