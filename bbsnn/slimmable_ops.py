@@ -1,4 +1,5 @@
 import torch.nn as nn
+import torch
 
 width_mult_list = [0.25, 0.275, 0.3, 0.325, 0.35, 0.375, 0.4, 0.425, 0.45, 0.475, 0.5, 0.525, 0.55, 0.575, 0.6, 0.625, 0.65, 0.675, 0.7, 0.725, 0.75, 0.775, 0.8, 0.825, 0.85, 0.875, 0.9, 0.925, 0.95, 0.975, 1.]
 
@@ -14,7 +15,7 @@ def make_divisible(v, divisor=8, min_value=1):
 
 class USConv2d(nn.Conv2d):
     def __init__(self, in_channels, out_channels, kernel_size, stride=1,
-                 padding=0, dilation=1, groups=1, depthwise=False, bias=True,
+                 padding=0, dilation=1, groups=1, depthwise=False, bias=False,
                  us=[True, True], ratio=[1, 1]):
         super(USConv2d, self).__init__(
             in_channels, out_channels,
@@ -26,6 +27,13 @@ class USConv2d(nn.Conv2d):
         self.width_mult = 1
         self.us = us
         self.ratio = ratio
+        self.in_channels_lasso = 0
+        self.out_channels_lasso = 0
+
+    def _get_glasso(self):
+        self.in_channels_lasso = torch.sqrt(torch.sum(self.weight[:self.out_channels, :self.in_channels, :, :]**2, (1,2,3)))
+        self.out_channels_lasso = torch.sqrt(torch.sum(self.weight[:self.out_channels, :self.in_channels, :, :]**2, (0,2,3)))
+
 
     def forward(self, input):
         if self.us[0]:
@@ -47,6 +55,8 @@ class USConv2d(nn.Conv2d):
         y = nn.functional.conv2d(
             input, weight, bias, self.stride, self.padding,
             self.dilation, self.groups)
+
+        self._get_glasso()
         return y
 
 
