@@ -7,9 +7,15 @@ Project of Slimmable Neural Network based smart resoure allocation
 * glasso.py -> Only glasso
 * snn_glasso.py -> SNN + glasso
 
+
+## Done
+* glasso + snn 학습
+* inference 때 pruning
+
 ## To Do List
 
 * Calibration
-* 그냥 glasso 했을 때, 얼마만큼 pruning 이 되는지
-* glasso 랑 snn 같이 했을 때, 얼마만틈 pruning 되는지
-* Compression 이랑 SNN 동시에 했을 때, Core 에서 SNN property가 유지되는지
+* 그냥 glasso vs glasso + snn 비교
+* glasso + snn pruning 했을 때, 코어보다 큰지 작은지
+* glasso + snn pruning 했을 때, snn property 유지되는지
+* BN 대신 sparse norm으로 
