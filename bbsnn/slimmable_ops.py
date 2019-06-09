@@ -35,7 +35,7 @@ class USConv2d(nn.Conv2d):
         self.out_channels_lasso = torch.sqrt(torch.sum(self.weight[:self.out_channels, :self.in_channels, :, :]**2, (0,2,3)))
 
     def _get_masked_weight(self, weight):
-        z = weight>0.001
+        z = torch.abs(weight)>0.001
         z = torch.sum(z, (1,2,3))
         z =  (z != 0).float()
         return weight * z.view(weight.shape[0],1,1,1).expand_as(weight)
