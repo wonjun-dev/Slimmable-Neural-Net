@@ -67,7 +67,7 @@ def train():
                     outputs = net(inputs)
                     log_soft_targets = F.log_softmax(outputs.detach(), dim=1)
                     penalty = get_glasso()
-                    loss = cent_fn(outputs, targets) + 0.001*penalty[0] + 0.001*penalty[1]
+                    loss = cent_fn(outputs, targets) + 0.0001*penalty[0] + 0.0001*penalty[1]
                     full_loss += loss.item()
                     _, predicted = outputs.max(1)
                     correct['w1.'] += predicted.eq(targets).sum().item()
@@ -75,7 +75,7 @@ def train():
                     outputs = net(inputs)
                     penalty = get_glasso()
                     loss = -(F.softmax(outputs, dim=1) * log_soft_targets).sum(1)
-                    loss = loss.mean() + 0.001*penalty[0] + 0.001*penalty[1]
+                    loss = loss.mean() + 0.0001*(1./width_mult)*penalty[0] + 0.0001*(1./width_mult)*penalty[1]
                     _, predicted = outputs.max(1)
                     if widx == 1:
                         correct['w.75'] += predicted.eq(targets).sum().item()

@@ -34,6 +34,11 @@ class USConv2d(nn.Conv2d):
         self.in_channels_lasso = torch.sqrt(torch.sum(self.weight[:self.out_channels, :self.in_channels, :, :]**2, (1,2,3)))
         self.out_channels_lasso = torch.sqrt(torch.sum(self.weight[:self.out_channels, :self.in_channels, :, :]**2, (0,2,3)))
 
+    def _get_masked_weight(self, weight):
+        z = weight>0.001
+        z = torch.sum(z, (1,2,3))
+        z =  (z != 0).float()
+        return weight * z.view(weight.shape[0],1,1,1).expand_as(weight)
 
     def forward(self, input):
         if self.us[0]:
@@ -48,6 +53,8 @@ class USConv2d(nn.Conv2d):
                 / self.ratio[1]) * self.ratio[1]
         self.groups = self.in_channels if self.depthwise else 1
         weight = self.weight[:self.out_channels, :self.in_channels, :, :]
+        if not self.training:
+            weight = _get_masked_weight(weight)
         if self.bias is not None:
             bias = self.bias[:self.out_channels]
         else:
