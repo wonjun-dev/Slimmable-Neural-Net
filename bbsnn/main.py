@@ -65,14 +65,14 @@ def train():
                 )
                 if width_mult == 1.:
                     outputs = net(inputs)
-                    log_soft_targets = F.log_softmax(outputs.detach(), dim=1)
+                    soft_targets = F.softmax(outputs.detach(), dim=1)
                     loss = cent_fn(outputs, targets)
                     full_loss += loss.item()
                     _, predicted = outputs.max(1)
                     correct['w1.'] += predicted.eq(targets).sum().item()
                 else:
                     outputs = net(inputs)
-                    loss = -(F.softmax(outputs, dim=1) * log_soft_targets).sum(1)
+                    loss = -(soft_targets * F.log_softmax(outputs, dim=1)).sum(1)
                     loss = loss.mean()
                     _, predicted = outputs.max(1)
                     if widx == 1:
