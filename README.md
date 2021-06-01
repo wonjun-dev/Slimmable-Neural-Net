@@ -1,6 +1,6 @@
 # Smart Allocation
 
-Project of Slimmable Neural Network based smart resoure allocation
+Efficient resourc allocation w/ Slimmable Neural Network
 
 ## Run
 * main.py -> Only SNN
