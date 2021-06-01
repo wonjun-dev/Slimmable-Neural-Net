@@ -1,6 +1,6 @@
 # Smart Allocation
 
-Efficient resourc allocation w/ Slimmable Neural Network
+Efficient resource allocation w/ Slimmable Neural Network
 
 ## Run
 * main.py -> Only SNN
