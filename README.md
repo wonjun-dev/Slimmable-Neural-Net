@@ -1,4 +1,4 @@
-# Smart Allocation
+# Efficient Neural Networks
 
 Efficient resource allocation w/ Slimmable Neural Network
 
